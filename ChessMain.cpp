@@ -55,6 +55,7 @@ int main() {
 	//cb.get_board(2,2) ->get_type();
 	//cout << endl;
 	//cout <<"valid_move:"<< cb.get_board(1,1) ->valid_move("B2","C3", &cb)<< endl;;
+	/*
 	cb.submitMove("B2", "C3");
 	cb.submitMove("H7", "H6");
 	cout << '\n';
@@ -81,6 +82,6 @@ int main() {
 
 	cb.submitMove("D3", "G6");
 	cout << '\n';
-	
+	*/
 	return 0;
 }

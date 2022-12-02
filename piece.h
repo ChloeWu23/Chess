@@ -6,23 +6,25 @@
 using namespace std;
 
 class ChessBoard;
-enum colour {Black, White};
-enum type {king, castle, bishop, queen, knight, pawn};
+//enum colour {Black, White};
+//enum type {king, castle, bishop, queen, knight, pawn};
 class Piece{
   friend class ChessBoard;
   //friend class Pawn;
 protected:
-  colour c;
-  // Piece_type p;
+  string piece_colour;
+  string piece_type;
+  bool king_flag;
+  //Piece_type p;
   // int piece_count;
 public:
-  Piece(colour _c); //default constructor
-  virtual bool valid_move(const char* source, const char* destination, ChessBoard* cb) = 0;
-  virtual void get_type() = 0;
-   void print_colour(); //print the name of enum colour variable
-  virtual type piece_type() = 0;
-  ostream& operator<< ( Piece* p) ;
-  //void set_count();
+  Piece(string c); //default constructor
+  virtual bool valid_move(int src_row, int src_col, int des_row, int des_col,ChessBoard* cb) = 0;
+  bool get_flag_king();
+  //virtual void get_type() = 0;
+  string print_colour(); //print the name of enum colour variable
+  //virtual type piece_type() = 0;
+ friend std::ostream& operator<< (std::ostream& out,Piece* p);
   bool get_colour(); //White returns true;
   
 };

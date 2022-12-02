@@ -5,7 +5,8 @@
 using namespace std;
 
 /*Function definition in Class Knight */
-Knight::Knight(colour _c) : Piece(_c){
+Knight::Knight(string c) : Piece(c){
+  piece_type = "Knight";
 }
 /*
 std::ostream& Knight::operator<< (std::ostream& out, Piece* p){
@@ -14,24 +15,29 @@ std::ostream& Knight::operator<< (std::ostream& out, Piece* p){
 }
 */
   
-bool Knight::valid_move(const char* source, const char* destination, ChessBoard* cb){
-  int src_row = source[1]-'1';
-  int src_col = source[0]-'A';
-  int des_row = destination[1]-'1';
-  int des_col = destination[0]-'A';
+bool Knight:: valid_move(int src_row, int src_col, int des_row, int des_col,ChessBoard* cb) {
+  bool flag = false;
+  bool chess_colour = cb->get_board(src_row,src_col) ->get_colour();
   //check moved to position is not same row, column, diagonal
   if (!cb->get_board(src_row,src_col)) return false;
-  if (cb -> get_board(des_row,des_col)!=  NULL && !cb ->is_opponent(source,destination)) return false;
-  if (!(cb->is_same_row(source, destination)) && !(cb->is_same_col(source, destination)) && !(cb->is_same_diagonal(source, destination)))
+  if (cb -> get_board (des_row,des_col)!=  NULL && !cb ->is_opponent (src_row, src_col, des_row, des_col)) return false;
+  
+  if (!(cb->is_same_row (src_row, des_row)) && !(cb->is_same_col (src_col, des_col)) && !(cb->is_same_diagonal (src_row, src_col, des_row, des_col)))
     {
       //check destination is the closest
       //L-shape
-      if(abs(src_row-des_row) == 1 && abs(src_col-des_col) == 2) return true;
-      if(abs(src_row-des_row) == 2 && abs(src_col-des_col) == 1) return true;  
-    } 
-  return false;
+      if(abs(src_row-des_row) == 1 && abs(src_col-des_col) == 2) flag = true;
+      if(abs(src_row-des_row) == 2 && abs(src_col-des_col) == 1) flag = true;  
+    }
+
+  if (flag == true){
+    if (!cb -> confirm_move(src_row, src_col, des_row, des_col,chess_colour))
+      flag = false;
+  }
+  
+  return flag;
 }
- 
+/*
  void Knight::get_type(){
    cout << "Knight";
  }
@@ -39,4 +45,5 @@ bool Knight::valid_move(const char* source, const char* destination, ChessBoard*
  type Knight:: piece_type(){
    return knight;
  }
+*/
 
