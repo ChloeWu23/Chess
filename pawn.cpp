@@ -7,19 +7,15 @@ using namespace std;
 /*Function definition in Class Pawn*/
 Pawn::Pawn(string c) : Piece(c){
   piece_type = "Pawn";
+  //king_flag = 0;
 }
 
-/*
-type Pawn::piece_type(){
-  return pawn;
+bool Pawn::get_flag_king(){
+  return false;
 }
+Pawn::~Pawn(){
 
-*/
-/*Function to get number of count_pawn
-void Pawn::set_count(){
-  piece_count -= 1;
 }
-*/
 
 /* Function to move this piece */
 bool Pawn::  valid_move(int src_row, int src_col, int des_row, int des_col,ChessBoard* cb) {

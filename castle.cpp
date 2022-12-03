@@ -7,6 +7,14 @@ using namespace std;
 
 Castle::Castle(string c) : Piece(c){
   piece_type = "Castle";
+  // king_flag = 0;
+}
+
+Castle::~Castle(){
+
+}
+bool Castle::get_flag_king(){
+  return false;
 }
 /*
 std::ostream& Castle:: operator<< (Piece* p){

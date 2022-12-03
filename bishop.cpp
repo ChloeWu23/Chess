@@ -6,18 +6,12 @@ using namespace std;
 /*Constructor*/
 Bishop::Bishop(string c) : Piece(c){
   piece_type = "Bishop";
+  // king_flag = 0;
 }
-/*
-ostream& Bishop:: operator<< (Piece* p){
-   return  p -> c << " 's Bishop ";
- 
+
+bool Bishop:: get_flag_king(){
+  return false;
 }
-*/
-/*
-type Bishop:: piece_type(){
-  return bishop;
-}
-*/
 /*Function to make move for bishop piece*/
 bool Bishop::valid_move(int src_row, int src_col, int des_row, int des_col,ChessBoard* cb){
   bool flag = false;
@@ -38,8 +32,6 @@ bool Bishop::valid_move(int src_row, int src_col, int des_row, int des_col,Chess
 }
 
 
-/*
-void Bishop::get_type(){
-  cout << "Bishop" ;
+Bishop::~Bishop(){
+
 }
-*/

@@ -10,7 +10,8 @@ class Knight: public Piece {
   //void get_type();
   //type piece_type();
   bool valid_move(int src_row, int src_col, int des_row, int des_col,ChessBoard* cb);
- 
+  ~Knight();
+  bool get_flag_king();
 };
 
 #endif

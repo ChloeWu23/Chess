@@ -59,6 +59,18 @@ ChessBoard::ChessBoard(){
   turn_count = 0;
 }
 
+//============================================================================
+//---------------------------------- Destructor------------------------------
+  /* Destructor of ChessBoard */
+ChessBoard::~ChessBoard(){
+  for (int i= 0; i < 8; i++){
+    for (int j= 0; j < 8; j++){
+      if (board[i][j]) delete board[i][j];
+    }
+
+  }
+
+}
 
 //============================================================================
 //------------------------resetboard()-----------------------------------------
@@ -227,6 +239,7 @@ void ChessBoard::submitMove(const char* source, const char* destination){
     turn_count--;
     return ;
   }
+
   
   //check whether it is a valid move
   bool valid = board[src_row][src_col] -> valid_move(src_row, src_col, des_row, des_col,this);
@@ -244,7 +257,7 @@ void ChessBoard::submitMove(const char* source, const char* destination){
        << source << " to " << destination;
   //destination is not null we can take piece
   if (board[des_row][des_col]){
-	cout << " taking "
+    cout << " taking "
 	 << board[des_row][des_col];
   }
    
@@ -255,33 +268,36 @@ void ChessBoard::submitMove(const char* source, const char* destination){
   make_move (src_row, src_col, des_row, des_col);
   //update king's position
   update_king_position(des_row, des_col);
-
+  
   //Document the color of its moving piece, get_colour returns 1 for White 0 for Black;
   bool colour_chess = board[des_row][des_col] ->get_colour(); //save its own colour, colour_chess is 1 if White
-
+  
 
   //--------------------------------------------------------------------
   
   //position now document it's opponents's king's position
   //position = colour_chess? black_king_position: white_king_position;
- int now_king_row = colour_chess? black_king_row : white_king_row;
- int now_king_col = colour_chess? black_king_col : white_king_col;
- //cout << " Chess colour: " << colour_chess << endl; //expect black 0 
- //cout << "King row: " << now_king_row << endl;
- //cout << "King column" << now_king_col << endl;
-  //check whether it let its opponent in check
+  int now_king_row = colour_chess? black_king_row : white_king_row;
+  int now_king_col = colour_chess? black_king_col : white_king_col;
+ 
   if(in_check(colour_chess,now_king_row, now_king_col)){
-    if (!is_checkmate(colour_chess)){
+    if (is_checkmate(!colour_chess)){
       //in_check but not checkmate
       cout << ((colour_chess) ?  "Black" : "White" )
-	    << " is in check" << endl;
-     } else{
-       //check_mate
-       cout << ((colour_chess) ? "Black" : "White")
-	    << " is checkmate" << endl;
-     }
-  }
+	   << " is in checkmate" << endl;
+    } else{
+      //check_mate
+      cout << ((colour_chess) ? "Black" : "White")
+	   << " is in check" << endl;
+    }
+    
+  } else{
+    if (is_stalemate (!colour_chess))
+      cout << ((colour_chess) ?  "Black" : "White" )
+	   << " is in stalemate" << endl;
 
+  }
+  return;
 }
 
 
@@ -327,37 +343,29 @@ Algorithem: We know it is already in check and see whether can be saved by movin
    for (int src_row = 0 ; src_row < 8; src_row++) {
      for (int src_col = 0 ; src_col < 8; src_col++) {
        for (int des_row = 0; des_row < 8; des_row++) {
-	 for (int des_col = 0; des_col < 8; des_col++) {
-	   // cout << "Here" << endl;
-	   /*  cout << "src_row: " << src_row << endl;
-	   cout << "src_col: " << src_col << endl;
-	   cout << "des_row: " << des_row << endl;
-	   cout << "des_col: " << des_col << endl;
-	   cout << "here" << endl;
-	   if( src_row ==0 && src_col ==2 && des_row ==0 && des_col == 0){
-	     cout << ( board[src_row][src_col] == NULL) << endl;
-	     cout <<  board[src_row][src_col] << endl;
-	     cout << board[src_col][src_row]->get_colour() << endl;
-	     }*/
-
-	   
-	   if ((board[src_row][src_col]!= NULL) && board[src_row][src_col]->get_colour() != colour && board[src_row][src_col] -> valid_move(src_row,src_col,des_row,des_col,this)) {
+	 for (int des_col = 0; des_col < 8; des_col++) { 
+	   if ((board[src_row][src_col]!= NULL) && board[src_row][src_col]->get_colour() == colour && board[src_row][src_col] -> valid_move(src_row,src_col,des_row,des_col,this)) {
+  
 	     //make the move now and update king's position
 	     Piece* temp_piece = board[des_row][des_col];
 	     //make the potential move
 	     make_move(src_row,src_col,des_row,des_col);
-	     update_king_position(des_row, des_col);
 	     
-	     //now_king_row is !colour's king_row
-	     int now_king_row = colour ? black_king_row : white_king_row;
-	     int now_king_col = colour ? black_king_col : white_king_col;
-	     
-	     //check after this move it won't get in-check;
-	     if(!in_check(colour,now_king_row,now_king_col)) flag= false;
+	     //if(board[des_row][des_col]) cout << board[des_row][des_col] << endl;
 
+	     update_king_position(des_row, des_col);
+	  
+	     int now_king_row = colour ? white_king_row : black_king_row;
+	     int now_king_col = colour ? white_king_col : black_king_col;
+	     
+	     if(!in_check(!colour,now_king_row,now_king_col)){
+	       flag= false;
+	     }
+	     
 	     //move back and update king position
 	     move_back (src_row,src_col, des_row, des_col, temp_piece);
 	     update_king_position(src_row,src_col);
+	     
 	   }
 	 }
        }
@@ -368,6 +376,24 @@ Algorithem: We know it is already in check and see whether can be saved by movin
  }
 
 
+//==========================================================================
+//---------------------is_stalemate()---------------------------------------
+
+
+bool ChessBoard::is_stalemate (bool colour){
+  bool flag = true;
+  for (int src_row = 0 ; src_row < 8; src_row++) {
+    for (int src_col = 0 ; src_col < 8; src_col++) {
+      for (int des_row = 0; des_row < 8; des_row++) {
+	for (int des_col = 0; des_col < 8; des_col++) { 
+	  if ((board[src_row][src_col]!= NULL) && board[src_row][src_col]->get_colour() == colour && board[src_row][src_col]->valid_move(src_row,src_col,des_row,des_col,this))  flag = false;  
+	}
+      }
+     }
+  }
+  return flag;
+  
+}
 
 //===========================================================================
 bool ChessBoard::is_turn(int src_row, int src_col){
@@ -390,10 +416,6 @@ bool ChessBoard::is_turn(int src_row, int src_col){
     It returns true if both positions have pieces and have diferent colour
  */
 bool ChessBoard::is_opponent (int src_row, int src_col, int des_row, int des_col){
-  // int src_row = source[1] - '1';
-  //int src_col = source[0] - 'A';
-  //int des_row = destination[1] - '1';
-  //int des_col = destination[0] - 'A';
   if (board[src_row][src_col] != NULL && board[des_row][des_col] != NULL)
     {
       if (board[src_row][src_col] -> get_colour() !=  board[des_row][des_col] -> get_colour()) return true; 
@@ -417,10 +439,7 @@ void ChessBoard::make_move (int src_row, int src_col, int des_row, int des_col){
 //---------------------move_back()---------------------------------------
 
 void ChessBoard:: move_back (int src_row, int src_col, int des_row, int des_col, Piece* _temp){
-  // int src_row = source[1] - '1';
-  //int src_col = source[0] - 'A';
-  //int des_row = destination[1] - '1';
-  //int des_col = destination[0] - 'A';
+  
   board[src_row][src_col] = board[des_row][des_col];
   board[des_row][des_col] = _temp;
 }
@@ -441,8 +460,6 @@ bool ChessBoard::valid_input(int src_row, int src_col, int des_row, int des_col)
 //-------------------------update_king_position()----------------------------
 
 void ChessBoard::update_king_position(int des_row, int des_col){
-  //int des_row = destination[1] - '1';
-  //int des_column = destination[0] - 'A';
   bool colour_chess = board[des_row][des_col] -> get_colour();//white is 1
   if (board[des_row][des_col] -> get_flag_king()){ // it returns true if it is king
     if (colour_chess) {
@@ -457,6 +474,7 @@ void ChessBoard::update_king_position(int des_row, int des_col){
 
 //=========================================================================
 //---------------Getter Functions to get King position ---------------------
+/*
 int ChessBoard::get_bkr(){
   return black_king_row;
 }
@@ -472,7 +490,7 @@ int ChessBoard:: get_wkr(){
 int ChessBoard:: get_wkc(){
   return white_king_col;
 }
-
+*/
 //===========================================================================
 //--------------------Function to confirm move-------------------------------
 /**

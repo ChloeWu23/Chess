@@ -5,7 +5,12 @@ using namespace std;
 
 /*Function definition in Class Queen */
 Queen::Queen(string c) : Piece(c){
-  piece_type = "Queen"; 
+  piece_type = "Queen";
+  //king_flag = 0;
+}
+
+bool Queen::get_flag_king(){
+  return false;
 }
 
 bool Queen::valid_move(int src_row, int src_col, int des_row, int des_col,ChessBoard* cb){
@@ -30,6 +35,10 @@ bool Queen::valid_move(int src_row, int src_col, int des_row, int des_col,ChessB
   }
   
   return flag;
+}
+
+Queen:: ~Queen(){
+
 }
 /*
 void Queen::get_type(){

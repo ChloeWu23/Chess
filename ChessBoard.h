@@ -75,20 +75,21 @@ public:
   /*Function to confirm we can actually make a move */
   bool confirm_move(int src_row, int src_col, int des_row, int des_col, bool chess_colour);
   //const char* get_black_king_position();
-  int get_bkr (); //get black king row
-  int get_bkc (); //get black king column
-  int get_wkr ();
-  int get_wkc ();
+  //int get_bkr (); //get black king row
+  //int get_bkc (); //get black king column
+  //int get_wkr ();
+  //int get_wkc ();
   
   //const char* get_white_king_position();
   /*Function to check after one move, the board is in_check or not*/
   bool in_check (bool colour, int king_row, int king_col);
   /*Functon to check whether it is checkmate */
-  bool is_checkmate(bool _colour);
-
+  bool is_checkmate(bool colour);
+  /*Function to check whether it is statemate */
+  bool is_stalemate(bool colour);
   
   /* Destructor */
-  // ~ChessBoard();
+   ~ChessBoard();
  
 };
 #endif

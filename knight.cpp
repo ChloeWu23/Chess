@@ -7,6 +7,11 @@ using namespace std;
 /*Function definition in Class Knight */
 Knight::Knight(string c) : Piece(c){
   piece_type = "Knight";
+  // king_flag = 0;
+}
+
+bool Knight::get_flag_king(){
+  return false;
 }
 /*
 std::ostream& Knight::operator<< (std::ostream& out, Piece* p){
@@ -36,6 +41,10 @@ bool Knight:: valid_move(int src_row, int src_col, int des_row, int des_col,Ches
   }
   
   return flag;
+}
+
+Knight::~Knight(){
+
 }
 /*
  void Knight::get_type(){

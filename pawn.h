@@ -12,8 +12,8 @@ public:
   //type piece_type();
   //void set_count();
   bool valid_move(int src_row, int src_col, int des_row, int des_col,ChessBoard* cb);
-  //std::ostream& operator<< (std::ostream& out, Piece* p);
-  //static int count_pawn;
+  ~Pawn();
+  bool get_flag_king();
 };
 
 #endif
