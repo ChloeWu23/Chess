@@ -25,7 +25,8 @@ bool Knight:: valid_move(int src_row, int src_col, int des_row, int des_col,Ches
   bool chess_colour = cb->get_board(src_row,src_col) ->get_colour();
   //check moved to position is not same row, column, diagonal
   if (!cb->get_board(src_row,src_col)) return false;
-  if (cb -> get_board (des_row,des_col)!=  NULL && !cb ->is_opponent (src_row, src_col, des_row, des_col)) return false;
+  if (cb -> get_board(des_row,des_col) &&  cb->get_board(des_row,des_col) -> get_colour() == chess_colour ) return false;
+  
   
   if (!(cb->is_same_row (src_row, des_row)) && !(cb->is_same_col (src_col, des_col)) && !(cb->is_same_diagonal (src_row, src_col, des_row, des_col)))
     {

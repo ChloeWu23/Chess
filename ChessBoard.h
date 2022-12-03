@@ -23,7 +23,7 @@ private:
   int black_king_col;
   
 public:
- 
+  void print_board();
   /*Function to get element of the board*/
   Piece* get_board(int r, int c);
   /*Function to check whether it's opponents piece */

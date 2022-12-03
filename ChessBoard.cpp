@@ -46,6 +46,30 @@ void ChessBoard::initialize_board(){
   }
   
 }
+
+//===========================================================================
+//-----------------------print Board()--------------------------------------
+void ChessBoard::print_board(){
+  for (char c= 'A'; c <= 'H'; c++){
+    if (c == 'A') cout << "   ";
+    cout << c <<"   " << "  |";}
+    cout<< endl;
+    for (int i = 7 ; i >= 0; i--){
+      cout << i << "  ";
+    for (int j = 0; j < 8; j++){
+     
+      if(board[i][j])
+	cout << board[i][j] -> piece_colour[0] << " " << board[i][j]->piece_type[0] << board[i][j] -> piece_type[1] << "  |";
+      else cout << "NULL" <<"  |";
+    }
+    cout << endl;
+  }
+
+}
+
+
+
+
 //===========================================================================
 /*Constructor of ChessBoard */
 ChessBoard::ChessBoard(){
@@ -345,7 +369,11 @@ Algorithem: We know it is already in check and see whether can be saved by movin
        for (int des_row = 0; des_row < 8; des_row++) {
 	 for (int des_col = 0; des_col < 8; des_col++) { 
 	   if ((board[src_row][src_col]!= NULL) && board[src_row][src_col]->get_colour() == colour && board[src_row][src_col] -> valid_move(src_row,src_col,des_row,des_col,this)) {
-  
+	     //cout << "here" << endl;
+	     //cout << "src_row: " << src_row << endl;
+	     //cout << "src_col: " << src_col << endl;
+	     //cout << "des_row: " << des_row << endl;
+	     // cout <<  "des_col: " << des_col << endl;
 	     //make the move now and update king's position
 	     Piece* temp_piece = board[des_row][des_col];
 	     //make the potential move
@@ -359,6 +387,7 @@ Algorithem: We know it is already in check and see whether can be saved by movin
 	     int now_king_col = colour ? white_king_col : black_king_col;
 	     
 	     if(!in_check(!colour,now_king_row,now_king_col)){
+	       //cout << "check" << endl;
 	       flag= false;
 	     }
 	     
