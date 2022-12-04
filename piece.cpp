@@ -20,7 +20,7 @@ bool Piece::get_flag_king(){
 }
 */
 std::ostream&  operator<<(std::ostream &out, Piece* p){
-  out << p -> piece_colour << " 's " << p -> piece_type;
+  out << p -> piece_colour << "'s " << p -> piece_type;
   return out;
 }
 
