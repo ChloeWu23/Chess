@@ -22,6 +22,7 @@ bool Bishop::valid_move(int src_row, int src_col, int des_row, int des_col,Chess
   
   if (cb -> is_same_diagonal (src_row, src_col, des_row, des_col) && cb-> is_diag_clear (src_row, src_col, des_row, des_col)) flag = true;
 
+  if (flag == true && cb -> is_capture_king (des_row, des_col, chess_colour)) return true;
   
   if (flag == true){
     if (!cb -> confirm_move(src_row, src_col, des_row, des_col,chess_colour))

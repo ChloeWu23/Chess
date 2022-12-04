@@ -1,8 +1,8 @@
 #include<iostream>
 #include"piece.h"
 #include<string>
-#include<cstring>
-#include<cassert>
+//#include<cstring>
+
 using namespace std;
 /*Function definition in Class Piece*/
 /*
@@ -36,7 +36,7 @@ Piece::~Piece(){
 //White is true
 bool Piece:: get_colour(){
   
-  if(!piece_colour.compare("White")) return true; 
+  if(piece_colour == "White") return true; 
   return false;
 }
 

@@ -1,7 +1,7 @@
 #include"ChessBoard.h"
 
 #include<iostream>
-using namespace std;
+//using namespace std;
 using std::cout;
 
 int main() {
@@ -78,7 +78,7 @@ int main() {
 	cout << '\n';
 
 
-	/*
+	
 	cout << "=========================\n";
 	cout << "Caro-Kann vs. Petroff \n";
 	cout << "=========================\n\n";
@@ -102,17 +102,17 @@ int main() {
 	cb.submitMove("C3", "E4");
 	cb.submitMove("B8", "D7");
 	cout << '\n';
-	
+	cb.print_board();
 	
 	cb.submitMove("D1", "E2");
 	cb.submitMove("G8", "F6");
 	cout << '\n';
+	cb.print_board();
 	
-	//cb.submitMove("D5", "E4");
 	cb.submitMove("E4", "D6");
 	cout << '\n';
-	cb.print_board();
-	cout << cb.get_board(5,3) -> valid_move(5,3,7,4,&cb) << endl;
+	//cb.print_board();
+	
 		
 	cout << "=========================\n";
 	cout << "Legall's Mate \n";
@@ -148,7 +148,7 @@ int main() {
 	cb.submitMove("C3", "D5");
 	cout << '\n';
 
-		      cb.print_board();
-	*/
+	// cb.print_board();
+	
 	return 0;
 }

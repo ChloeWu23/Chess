@@ -41,6 +41,8 @@ bool Castle:: valid_move(int src_row, int src_col, int des_row, int des_col,Ches
   //move towards file
   if( cb -> is_same_col(src_col,des_col) && cb -> is_col_clear(src_row,src_col, des_row,des_col))  flag = true;
 
+if (flag == true && cb -> is_capture_king (des_row, des_col, chess_colour)) return true;
+  
    if (flag == true){
     if (!cb -> confirm_move(src_row, src_col, des_row, des_col,chess_colour))
       flag = false;

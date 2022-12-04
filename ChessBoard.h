@@ -90,6 +90,10 @@ public:
   
   /* Destructor */
    ~ChessBoard();
+
+
+  /* Function to see whether it can caputure opponent's king */
+  bool is_capture_king(int des_row, int des_col, bool chess_colour);
  
 };
 #endif

@@ -55,7 +55,7 @@ void ChessBoard::print_board(){
     cout << c <<"   " << "  |";}
     cout<< endl;
     for (int i = 7 ; i >= 0; i--){
-      cout << i << "  ";
+      cout << i+1 << "  ";
     for (int j = 0; j < 8; j++){
      
       if(board[i][j])
@@ -385,7 +385,13 @@ Algorithem: We know it is already in check and see whether can be saved by movin
 	  
 	     int now_king_row = colour ? white_king_row : black_king_row;
 	     int now_king_col = colour ? white_king_col : black_king_col;
-	     
+	     //cout << now_king_row << " Expected black king row" << endl;
+	     //cout << now_king_col << " Expected black king col " << endl;
+	     //cout << colour << "Expected black 0 " << endl;
+	     //if (board[5][3]) cout << board[5][3]<<endl;
+	     //if(board[7][4]) cout << board[7][4] << endl;
+	     //if(board[5][3]) cout << board[5][3] -> valid_move(5,3,7,4,this) << "Expected 1 valid move"  << endl;
+	     // cout << in_check (!colour, now_king_row, now_king_col) << endl;
 	     if(!in_check(!colour,now_king_row,now_king_col)){
 	       //cout << "check" << endl;
 	       flag= false;
@@ -550,4 +556,12 @@ bool ChessBoard::confirm_move (int src_row, int src_col, int des_row, int des_co
   //cout << "Hey" << endl;
   //cout << flag << endl;
   return flag;
+}
+
+//-------------------------------------------------------------------------------
+//--------------------- is_capture_king() ----------------------------------------
+//Note here chess_colour is the colour of moving piece from source
+bool ChessBoard:: is_capture_king(int des_row, int des_col, bool chess_colour){
+  if ( board[des_row][des_col] != NULL && board[des_row][des_col] -> get_colour() != chess_colour && board[des_row][des_col] -> get_flag_king()) return true;
+  return false;
 }
