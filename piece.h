@@ -1,16 +1,14 @@
 //this is abstract class
 #ifndef PIECE_H
 #define PIECE_H
-//#include"ChessBoard.h"
 #include<iostream>
 using namespace std;
 
 class ChessBoard;
-//enum colour {Black, White};
-//enum type {king, castle, bishop, queen, knight, pawn};
+
 class Piece{
   friend class ChessBoard;
-  //friend class Pawn;
+
 protected:
   string piece_colour;
   string piece_type;
