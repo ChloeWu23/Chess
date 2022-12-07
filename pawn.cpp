@@ -5,65 +5,70 @@
 using namespace std;
 
 /*Function definition in Class Pawn*/
+
+//constructor
 Pawn::Pawn(string c) : Piece(c){
   piece_type = "Pawn";
-  //king_flag = 0;
 }
 
+/**
+ * Functiont to get king_flag
+ *@param return false
+ **/
 bool Pawn::get_flag_king(){
   return false;
 }
+
+//destructor
 Pawn::~Pawn(){
 
 }
 
-/* Function to move this piece */
+/**
+ *Function to see whether it is a valid move for piece pawn from source to destination
+ *@param src_row: integer of row numbers of the source Chess Piece
+ *@param des_row: integer of row numbers of the destiantion Chess Piece.
+ *@param src_col: integer of column numbers of the source CHess Piece
+ *@param des_col: integer of column numbers of the destiantion Chess Piece
+ *@param return: return true it is a valid move
+**/
 bool Pawn::  valid_move(int src_row, int src_col, int des_row, int des_col,ChessBoard* cb) {
-  //cout << "just enter valid move " << endl;
-  // cout << src_row << des_row <<endl;
+  
   bool flag = false;
-  bool chess_colour = cb->get_board(src_row,src_col) ->get_colour();
+  bool chess_colour = cb->get_board(src_row,src_col) -> is_white ();
   
   if (!cb->get_board(src_row,src_col)) return false;
 
   if (cb -> get_board(des_row,des_col) != NULL && !cb ->is_opponent (src_row, src_col, des_row, des_col)) return false;
   
   //first step move two step along the file
-    if (src_row == 1 && cb->get_board(src_row,src_col) -> get_colour()) {
+    if (src_row == 1 && cb->get_board(src_row,src_col) -> is_white()) {
       if (cb -> is_same_col (src_col,des_col) && cb -> is_col_clear(src_row, src_col, des_row, des_col) && abs(des_row-src_row) <=2 && (des_row > src_row)  && (cb->get_board(des_row,des_col) == NULL)) {
-	//if ( src_row==6 && src_col==4 && des_row==7 &&  des_col==4)
-	//cout << des_row - src_row << endl;
 	flag = true;
       }
     }
     
-    if (src_row ==6 && !cb->get_board(src_row,src_col) -> get_colour()) {
+    if (src_row ==6 && !cb->get_board(src_row,src_col) -> is_white()) {
       if (cb -> is_same_col(src_col, des_col) &&
 	  cb -> is_col_clear(src_row, src_col, des_row, des_col) &&
-	  ( abs (src_row-des_row) <= 2) && (src_row > des_row) &&
+	  (abs(src_row-des_row) <= 2) && (src_row > des_row) &&
 	  (cb->get_board(des_row,des_col) == NULL)) {
-
-	//if ( src_row==6 && src_col==4 && des_row==7 &&  des_col==4)
-	//cout << des_row - src_row << endl;
-	
-      flag = true;
+	flag = true;
       }
     }
     
  
     //move to the unoccupied square of the same file imediately in front of it
     //white move upwards, black move downwards
-    if (cb-> get_board(src_row,src_col) -> get_colour()){
+    if (cb-> get_board(src_row,src_col) -> is_white()){
       if(cb ->is_same_col(src_col,des_col) && (des_row - src_row) == 1 && cb -> get_board(des_row,des_col) == NULL){
   
 	flag = true;
       }
   }
     //if it is Black's piece
-  if (!cb->get_board(src_row,src_col) -> get_colour()){
+  if (!cb->get_board(src_row,src_col) -> is_white()){
     if(cb ->is_same_col(src_col,des_col) && (src_row - des_row) == 1 && cb -> get_board(des_row,des_col) == NULL){
-      // cout << "----black" << endl;
-      //cout << src_row << des_row <<endl;
       flag = true;
     }
   }
@@ -73,9 +78,9 @@ bool Pawn::  valid_move(int src_row, int src_col, int des_row, int des_col,Chess
   //Note here need destination is not NULL.
   if (cb ->get_board(des_row,des_col) != NULL){
    
-    if((cb->get_board(des_row,des_col) -> get_colour() !=  cb->get_board(src_row,src_col) -> get_colour()) && cb -> is_same_diagonal(src_row, src_col, des_row, des_col)){
+    if((cb->get_board(des_row,des_col) -> is_white() !=  cb->get_board(src_row,src_col) -> is_white()) && cb -> is_same_diagonal(src_row, src_col, des_row, des_col)){
      
-      if (cb->get_board(src_row,src_col) -> get_colour() == 1 ){
+      if (cb->get_board(src_row,src_col) -> is_white() == 1 ){
 	//check position
 	if ((des_col-src_col) == 1 && (des_row-src_row) ==1){
 	  flag = true;

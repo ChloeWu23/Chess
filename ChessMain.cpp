@@ -78,7 +78,7 @@ int main() {
 	cout << '\n';
 
 
-	/*
+	/*	
 	cout << "=========================\n";
 	cout << "Caro-Kann vs. Petroff \n";
 	cout << "=========================\n\n";
@@ -102,16 +102,16 @@ int main() {
 	cb.submitMove("C3", "E4");
 	cb.submitMove("B8", "D7");
 	cout << '\n';
-	//cb.print_board();
+        
 	
 	cb.submitMove("D1", "E2");
 	cb.submitMove("G8", "F6");
 	cout << '\n';
-	//cb.print_board();
+        
 	
 	cb.submitMove("E4", "D6");
 	cout << '\n';
-	//cb.print_board();
+
 	
 		
 	cout << "=========================\n";
@@ -196,6 +196,6 @@ int main() {
 	cb.submitMove("C8", "E6");
 		      
 	cout << '\n';
-	*/		      
+	*/			      
 	return 0;
 }

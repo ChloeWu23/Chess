@@ -4,18 +4,31 @@
 using namespace std;
 
 /*Function definition in Class Queen */
+
+//constructor
 Queen::Queen(string c) : Piece(c){
   piece_type = "Queen";
-  //king_flag = 0;
 }
 
+/**
+ * Function to get king_flag
+ * @param return false
+ **/
 bool Queen::get_flag_king(){
   return false;
 }
 
+/**
+ *Function to see whether it is a valid move for piece Queen from source to destination
+ *@param src_row: integer of row numbers of the source Chess Piece
+ *@param des_row: integer of row numbers of the destiantion Chess Piece.
+ *@param src_col: integer of column numbers of the source CHess Piece
+ *@param des_col: integer of column numbers of the destiantion Chess Piece
+ *@param return: return true it is a valid move
+**/
 bool Queen::valid_move(int src_row, int src_col, int des_row, int des_col,ChessBoard* cb){
   bool flag = false;
-  bool chess_colour = cb->get_board(src_row,src_col) ->get_colour();
+  bool chess_colour = cb->get_board(src_row,src_col) ->is_white();
   
   if (!cb->get_board(src_row,src_col)) return false;
   if (cb -> get_board(des_row,des_col) !=NULL && !cb ->is_opponent(src_row, src_col, des_row, des_col)) return false;
@@ -39,15 +52,8 @@ if (flag == true && cb -> is_capture_king (des_row, des_col, chess_colour)) retu
   return flag;
 }
 
+//destructor
 Queen:: ~Queen(){
 
 }
-/*
-void Queen::get_type(){
-  cout << "Queen";
-}
- 
-type Queen::piece_type(){
-  return queen;
-}
-*/
+

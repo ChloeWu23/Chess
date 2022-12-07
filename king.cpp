@@ -4,26 +4,27 @@
 using namespace std;
 
 /*Function definition in Class King*/
-/*
-King::King(colour _c) : Piece(_c){
-}
-*/
+
 
 /* Constructor */
 King::King(string c) : Piece(c) {
   piece_type = "King";
-  //  king_flag = 1;
+ 
 }
 
 
-/*Function to move piece king*/
+/**
+ *Function to see whether it is a valid move for piece king from source to destination
+ *@param src_row: integer of row numbers of the source Chess Piece
+ *@param des_row: integer of row numbers of the destiantion Chess Piece.
+ *@param src_col: integer of column numbers of the source CHess Piece
+ *@param des_col: integer of column numbers of the destiantion Chess Piece
+ *@param return: return true it is a valid move
+**/
 /* Note here valid means that it follows rule of its piece and it didnt move t its own piece's position and make its own under in check */
 bool King:: valid_move(int src_row, int src_col, int des_row, int des_col, ChessBoard* cb){
   bool flag = false;
-  
-  //chess_colour is the colour of the chess which is tryna make move, on the source, 1 represents White colour
-  //Piece* temp_piece = NULL;
-  bool chess_colour = cb->get_board(src_row,src_col) ->get_colour();
+  bool chess_colour = cb->get_board(src_row,src_col) -> is_white();
   
   //make sure the souece is not empty
   if (!cb->get_board(src_row,src_col)) return false;
@@ -45,11 +46,15 @@ bool King:: valid_move(int src_row, int src_col, int des_row, int des_col, Chess
   return flag;      
 }
 
-
+//destuctor
 King::~King( ){
-
 }
 
+
+/**
+ * Function to get king_flag
+ * @param return true since it is piece of King
+ **/
 bool King::get_flag_king(){
   return true;
 }

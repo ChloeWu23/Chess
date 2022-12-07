@@ -92,9 +92,12 @@ ChessBoard::ChessBoard(){
  *Destructor of ChessBoard 
 **/
 ChessBoard::~ChessBoard(){
-  for (int i = 0; i < 8; i++){
-    for (int j = 0; j < 8; j++){
-      if (board[i][j]) delete board[i][j];
+  for (int row = 0; row < 8; row++){
+    for (int col = 0; col < 8; col++){
+      if (board[row][col]) {
+	delete board[row][col];
+	board[row][col] = NULL;
+      }
     }
 
   }
@@ -227,7 +230,7 @@ bool ChessBoard:: is_col_clear (int src_row, int src_col, int des_row, int des_c
   bool flag = true;
   
   if (is_same_col(src_col, des_col)){
-    int x,y;//x save small number of row
+    int x,y; //x save small number of row
     
     x = (src_row <= des_row) ? src_row : des_row;
     y = (src_row <= des_row) ? des_row : src_row;
@@ -255,8 +258,6 @@ bool ChessBoard:: is_col_clear (int src_row, int src_col, int des_row, int des_c
 bool ChessBoard::is_diag_clear(int startx, int starty, int endx, int endy){
   
   int numSteps = abs(endx - startx)-1; 
-  //int xdir = signbit(endx-startx) ? -1 : 1; //signbit return true if it is negative inside
-  //int ydir = signbit(endy-starty) ? -1 :1; 
   int xdir = (endx > startx) ? 1 : -1;
   int ydir = (endy > starty) ? 1 : -1;
   for (int i = 0; i< numSteps; i++)
@@ -338,8 +339,8 @@ void ChessBoard::submitMove(const char* source, const char* destination){
   //update king's position
   update_king_position(des_row, des_col);
   
-  //Document the color of its moving piece, get_colour returns 1 for White 0 for Black;
-  bool colour_chess = board[des_row][des_col] ->get_colour(); //save its own colour, colour_chess is 1 if White
+  //Document the color of its moving piece, is_white() returns 1 for White 0 for Black;
+  bool colour_chess = board[des_row][des_col] ->is_white(); //save its own colour, colour_chess is 1 if White
   
   //position now document it's opponents's king's position
   //position = colour_chess? black_king_position: white_king_position;
@@ -347,7 +348,7 @@ void ChessBoard::submitMove(const char* source, const char* destination){
   int now_king_col = colour_chess? black_king_col : white_king_col;
  
   if (in_check(colour_chess,now_king_row, now_king_col)){
-    if (is_checkmate(!colour_chess)){
+    if (!AnyPossibleMove (!colour_chess)){
       //in_check but not checkmate
       cout << ((colour_chess) ?  "Black" : "White" )
 	   << " is in checkmate" << endl;
@@ -355,14 +356,12 @@ void ChessBoard::submitMove(const char* source, const char* destination){
       //check_mate
       cout << ((colour_chess) ? "Black" : "White")
 	   << " is in check" << endl;
-    }
-    
-  } else {
-    
-    if (is_stalemate (!colour_chess))
+    } 
+  }
+  else {
+    if (!AnyPossibleMove (!colour_chess))
       cout << ((colour_chess) ?  "Black" : "White" )
 	   << " is in stalemate" << endl;
-
   }
   return;
 }
@@ -384,7 +383,7 @@ bool ChessBoard::in_check (bool colour, int king_row, int king_col){
   for (int i = 0; i <= 7; i++){
     for (int j = 0; j <= 7; j++){
      
-      if (board[i][j] != NULL && board[i][j] -> get_colour() == colour){
+      if (board[i][j] != NULL && board[i][j] -> is_white() == colour){
 
 	if (board[i][j] ->valid_move(i,j, king_row,king_col,this)) return true;
       }
@@ -396,78 +395,38 @@ bool ChessBoard::in_check (bool colour, int king_row, int king_col){
 
 
 //===========================================================================
-//---------------------is_checkmate()----------------------------------------
+//---------------------AnyPossibleMove()----------------------------------------
 /**
  *Function to check out whether it is in checkmate state
  *@param colour is the bool variable and stands for colour of piece which you need to check whther it is in checkmate or not, true stands for white colour, false stands for black colour.
- *@return true if it is in checkmate
+ *@return true if there is a possible move to save it from in check state; else return false
  **/
- bool ChessBoard::is_checkmate (bool colour){
+ bool ChessBoard::AnyPossibleMove (bool colour){
    /**
-      Algorithem: We know it is already in check and see whether can be saved by moving a piece.Run all the positions for source on the board for its opponents's piece to all the position on the board and see whether there is a valid move to make it's opponent not in check, if it is which means we can make possible move and the board won't get checkmate state
+      Algorithm: We know it is already in check and see whether can be saved by moving a piece.Run all the positions for source on the board for its opponents's piece to all the position on the board and see whether there is a valid move to make it's opponent not in check, if it is which means we can make possible move and the board won't get checkmate state
  **/
-   bool flag = true;
+   bool flag = false;
    for (int src_row = 0 ; src_row < 8; src_row++) {
      for (int src_col = 0 ; src_col < 8; src_col++) {
        for (int des_row = 0; des_row < 8; des_row++) {
 	 for (int des_col = 0; des_col < 8; des_col++) { 
-	   if ((board[src_row][src_col]!= NULL) && board[src_row][src_col]->get_colour() == colour && board[src_row][src_col] -> valid_move(src_row,src_col,des_row,des_col,this)) {
-	     /*Note we already test potential move won't make itself in check in the valid_move() function*/
-	     //Piece* temp_piece = board[des_row][des_col];
-	     //make the potential move
-	     //make_move(src_row,src_col,des_row,des_col);
-	     //update_king_position(des_row, des_col);
-	  
-	     //int now_king_row = colour ? white_king_row : black_king_row;
-	     //int now_king_col = colour ? white_king_col : black_king_col;
+	   if ((board[src_row][src_col]!= NULL) && board[src_row][src_col]-> is_white()  == colour && board[src_row][src_col] -> valid_move(src_row,src_col,des_row,des_col,this)) {
 	     
-	     //if(!in_check(!colour,now_king_row,now_king_col)){
-	       
-	       flag= false;
-	       // }
-	     
-	     //move back and update king position
-	     //move_back (src_row,src_col, des_row, des_col, temp_piece);
-	     //update_king_position(src_row,src_col);
+	     flag= true;
 	     
 	   }
 	 }
        }
      }
    }
-
-  return flag;
+   
+   return flag;
  }
 
 
-//==========================================================================
-//---------------------is_stalemate()---------------------------------------
-/**
- *Function to check whether the chess may ends with stalemate state
- *@param colour: bool variable for true stands for white, false stands for black.
- *@param return: return true if it ends in stalemate state
- **/
-
-bool ChessBoard::is_stalemate (bool colour){
-   bool flag = true;
-  for (int src_row = 0 ; src_row < 8; src_row++) {
-    for (int src_col = 0 ; src_col < 8; src_col++) {
-      for (int des_row = 0; des_row < 8; des_row++) {
-	for (int des_col = 0; des_col < 8; des_col++) { 
-	  if ((board[src_row][src_col]!= NULL) && board[src_row][src_col]->get_colour() == colour
-	      && board[src_row][src_col]->valid_move(src_row,src_col,des_row,des_col,this)) {
-	    // cout << "src_row" << src_row << endl;
-	    //cout << src_col << des_row<< des_col << endl;
-	  flag = false;  }
-	}
-      }
-     }
-  }
-  return flag;
-  
-}
 
 //===========================================================================
+//--------------------------is_turn()----------------------------------------
 /**
  *Function to check whether it is white or black;s turn to move
  *@param src_row: integer of number of rows of the source position
@@ -477,9 +436,9 @@ bool ChessBoard::is_stalemate (bool colour){
 bool ChessBoard::is_turn(int src_row, int src_col){
   bool flag = false;
   //white moves first
-  if (turn_count%2 == 1 && board[src_row][src_col] -> get_colour() )
+  if (turn_count%2 == 1 && board[src_row][src_col] -> is_white() )
     flag = true;
-  if (turn_count%2 == 0 && !board[src_row][src_col] -> get_colour() )
+  if (turn_count%2 == 0 && !board[src_row][src_col] -> is_white() )
     flag = true;
   
   return flag;
@@ -500,7 +459,7 @@ bool ChessBoard::is_turn(int src_row, int src_col){
 bool ChessBoard::is_opponent (int src_row, int src_col, int des_row, int des_col){
   if (board[src_row][src_col] != NULL && board[des_row][des_col] != NULL)
     {
-      if (board[src_row][src_col] -> get_colour() !=  board[des_row][des_col] -> get_colour()) return true; 
+      if (board[src_row][src_col] -> is_white() !=  board[des_row][des_col] -> is_white()) return true; 
     }
   return false;
 }
@@ -567,7 +526,7 @@ bool ChessBoard::valid_input(int src_row, int src_col, int des_row, int des_col)
  *@param des_col: integer of column numbers of the destiantion 
  **/
 void ChessBoard::update_king_position (int des_row, int des_col){
-  bool colour_chess = board[des_row][des_col] -> get_colour();//white is 1
+  bool colour_chess = board[des_row][des_col] -> is_white();//white is 1
   if (board[des_row][des_col] -> get_flag_king()){ // it returns true if it is king
     if (colour_chess) {
       white_king_row = des_row;
@@ -621,10 +580,11 @@ bool ChessBoard::confirm_move (int src_row, int src_col, int des_row, int des_co
  *@param des_row: integer of row numbers of the destiantion Chess Piece.
  *@param des_col: integer of column numbers of the destiantion Chess Piece
  *@param chess_colour: bool variable which stands for the colour of moving piece of the source, true stands for white, false stands for black.
- *@param return true if it 
+ *@param return true if it capture capture King
  **/
+
 //Note here chess_colour is the colour of moving piece from source
 bool ChessBoard:: is_capture_king(int des_row, int des_col, bool chess_colour){
-  if ( board[des_row][des_col] != NULL && board[des_row][des_col] -> get_colour() != chess_colour && board[des_row][des_col] -> get_flag_king()) return true;
+  if ( board[des_row][des_col] != NULL && board[des_row][des_col] -> is_white() != chess_colour && board[des_row][des_col] -> get_flag_king()) return true;
   return false;
 }

@@ -16,7 +16,7 @@ protected:
   //Piece_type p;
   // int piece_count;
 public:
-  Piece(string c); //default constructor
+  Piece(string c); //constructor
   virtual bool valid_move(int src_row, int src_col, int des_row, int des_col,ChessBoard* cb) = 0;
   virtual ~Piece();
   virtual bool get_flag_king();
@@ -24,7 +24,7 @@ public:
   string print_colour(); //print the name of enum colour variable
   //virtual type piece_type() = 0;
  friend std::ostream& operator<< (std::ostream& out,Piece* p);
-  bool get_colour(); //White returns true;
+  bool is_white(); //White returns true;
   
 };
 #endif

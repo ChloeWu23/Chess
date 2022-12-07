@@ -83,7 +83,7 @@ public:
   bool in_check (bool colour, int king_row, int king_col);
   
   /*Functon to check whether it is checkmate */
-  bool is_checkmate(bool colour);
+  bool AnyPossibleMove(bool colour);
   
   /*Function to check whether it is statemate */
   bool is_stalemate(bool colour);
