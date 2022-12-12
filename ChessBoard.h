@@ -12,7 +12,6 @@
 
 
 class ChessBoard {
-  // friend class Piece;:
 private:
   Piece* board[8][8];
   int turn_count;
@@ -23,7 +22,7 @@ private:
   
 public:
   /*funciton to print out the board */
-  void print_board();
+  //void print_board();
   
   /*Function to get element of the board*/
   Piece* get_board(int r, int c);
@@ -85,8 +84,6 @@ public:
   /*Functon to check whether it is checkmate */
   bool AnyPossibleMove(bool colour);
   
-  /*Function to check whether it is statemate */
-  bool is_stalemate(bool colour);
   
   /* Destructor */
    ~ChessBoard();

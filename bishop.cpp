@@ -31,7 +31,8 @@ bool Bishop::valid_move(int src_row, int src_col, int des_row, int des_col,Chess
   
   if (!cb->get_board(src_row,src_col)) return false;
   if (cb -> get_board(des_row,des_col) != NULL && !cb ->is_opponent (src_row, src_col, des_row, des_col))  return false;
-  
+
+  //move towards diagonal
   if (cb -> is_same_diagonal (src_row, src_col, des_row, des_col) && cb-> is_diag_clear (src_row, src_col, des_row, des_col)) flag = true;
 
   if (flag == true && cb -> is_capture_king (des_row, des_col, chess_colour)) return true;

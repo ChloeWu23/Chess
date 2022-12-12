@@ -36,8 +36,10 @@ bool King:: valid_move(int src_row, int src_col, int des_row, int des_col, Chess
   if (abs (des_row-src_row) == 1 && cb -> is_same_col(src_col,des_col)) flag = true;
   if (abs (des_col-src_col) == 1 && cb -> is_same_diagonal(src_row, src_col, des_row,des_col)) flag = true;
 
+  //check whether capture king
   if (flag == true && cb -> is_capture_king (des_row, des_col, chess_colour)) return true;
-  
+
+  //check not let itself in check
   if (flag == true){
     if (!cb -> confirm_move(src_row, src_col, des_row, des_col,chess_colour))
       flag = false;

@@ -35,7 +35,7 @@ bool Castle::get_flag_king(){
 bool Castle:: valid_move(int src_row, int src_col, int des_row, int des_col,ChessBoard* cb){
   bool flag = false;
   bool chess_colour = cb->get_board(src_row,src_col) -> is_white();
-  
+  //source is empty
   if (!cb->get_board(src_row,src_col)) return false;
   if (cb -> get_board(des_row,des_col) != NULL && !cb ->is_opponent(src_row,src_col,des_row,des_col))  return false;
   
