@@ -290,10 +290,11 @@ void ChessBoard::submitMove(const char* source, const char* destination){
   cout << board[src_row][src_col]
        << " moves from "
        << source << " to " << destination;
-  //destination is not null we can take piece
+  //destination is not null we can take piece and also delete this piece on the heap since it has been captured, otherwise it may cause memory leak
   if (board[des_row][des_col]){
     cout << " taking "
 	 << board[des_row][des_col];
+    delete board[des_row][des_col];
   }
    
   cout << endl;
