@@ -29,7 +29,7 @@ The project evaluates whether each move is valid and determines if either king i
 
 
 Note That:
-* Specific Rules of each piece's movement and when to finish the game are given in `description.pdf`
+* Specific Rules of each piece's movement and when to finish the game are given in `./Asset/description.pdf`
 * Given several famous chess games with different results for testing in `ChessMain.cpp`
 * To be supplemented
 
@@ -38,7 +38,7 @@ Note That:
 ## OOP Design
 
 The UML diagram is below:
-![can't find](https://github.com/ChloeWu23/ChessBoard/blob/main/uml.png?raw=true)
+![can't find](https://github.com/ChloeWu23/ChessBoard/blob/main/Asset/uml.png?raw=true)
 
 * Class Hierarchy: abstract class `Piece`, serving as the base for individual piece class like `Bishop`, `Knight`, etc. 
 
