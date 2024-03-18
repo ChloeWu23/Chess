@@ -78,7 +78,7 @@ int main() {
 	cout << '\n';
 
 
-	/*		
+			
 	cout << "=========================\n";
 	cout << "Caro-Kann vs. Petroff \n";
 	cout << "=========================\n\n";
@@ -196,6 +196,6 @@ int main() {
 	cb.submitMove("C8", "E6");
 		      
 	cout << '\n';
-	*/					      
+				      
 	return 0;
 }
