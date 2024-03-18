@@ -1,0 +1,8 @@
+# Ignore all .swp files
+*.swp
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore Visual Studio Code workspace settings
+.vscode/
