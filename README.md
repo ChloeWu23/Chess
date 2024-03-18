@@ -18,6 +18,7 @@ Note That:
 ## Class Design
 
 The UML diagram is below:
+![can't find](https://github.com/ChloeWu23/ChessBoard/blob/main/uml.png?raw=true)
 
 
 
