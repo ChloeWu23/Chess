@@ -19,7 +19,7 @@ int main() {
 	cb.submitMove("D4", "H6");
 	cout << '\n';
 
-       	cb.submitMove("D2", "D4");
+    cb.submitMove("D2", "D4");
 	cout << '\n';
 	
 	

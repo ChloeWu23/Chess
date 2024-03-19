@@ -45,12 +45,6 @@ public:
   /* FUnction to check whether source and destination is valid or not */
   bool valid_input (int src_row, int src_col, int des_row, int des_col);
   
-  /* Function to check whether in the same row */
-  bool is_same_row(int src_row, int des_row);
-  
-  /*Function to check whether in the same column */
-  bool is_same_col(int src_col, int des_col);
-  
   /*Function to check whether source and destination are diagnal.*/
   bool is_same_diagonal (int src_row, int src_col, int des_row, int des_col);
   

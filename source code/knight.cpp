@@ -32,9 +32,7 @@ bool Knight::get_flag_king(){
 bool Knight:: valid_move(int src_row, int src_col, int des_row, int des_col,ChessBoard* cb) {
   bool flag = false;
   bool chess_colour = cb->get_board(src_row,src_col) -> is_white();
-  
-  if (!cb->get_board(src_row,src_col)) return false;
-  //same colour for destination and source
+
   if (cb -> get_board(des_row,des_col) &&  cb->get_board(des_row,des_col) -> is_white() == chess_colour ) return false;
   
   //check destination is the closest
@@ -43,7 +41,6 @@ bool Knight:: valid_move(int src_row, int src_col, int des_row, int des_col,Ches
   if(abs(src_row-des_row) == 2 && abs(src_col-des_col) == 1) flag = true;
 
    //check whether source can move to destination and destination is king
-
   if (flag == true && cb -> is_capture_king (des_row, des_col, chess_colour)) return true;
   
   if (flag == true){
