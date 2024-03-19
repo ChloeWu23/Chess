@@ -42,7 +42,7 @@ void ChessBoard::initialize_board(){
   
   for(int i = 2; i < 6; i++){
     for(int j = 0; j < 8; j++){
-      board[i][j] = NULL;
+      board[i][j] = nullptr;
     }
   }
   
@@ -73,7 +73,7 @@ ChessBoard::~ChessBoard(){
     for (int col = 0; col < 8; col++){
       if (board[row][col]) {
 	  delete board[row][col];
-	  board[row][col] = NULL; //note better to set deleted points to NULL
+	  board[row][col] = nullptr; //note better to set deleted points to NULL
       }
     }
 
@@ -211,7 +211,7 @@ bool ChessBoard:: is_row_clear (int src_row, int src_col, int des_row, int des_c
   
   for (int i= start; i < end; i++)
     {
-      if (board[src_row][i] != NULL) return false; 
+      if (board[src_row][i] != nullptr) return false; 
     }
   
   return true; 
@@ -241,7 +241,7 @@ bool ChessBoard:: is_col_clear (int src_row, int src_col, int des_row, int des_c
   end = max(src_row, des_row);
   for (int i= start; i <  end ; i++)
     {
-      if (board[i][src_col] != NULL) return false; 
+      if (board[i][src_col] != nullptr) return false; 
     }
   
   return true; 
@@ -272,7 +272,7 @@ bool ChessBoard::is_diag_clear(int startx, int starty, int endx, int endy){
       int cur_row = startx + i*row_dir;
       int cur_col = starty+ i*col_dir;
 	  
-      if (board[cur_row][cur_col] != NULL) {
+      if (board[cur_row][cur_col] != nullptr) {
 	        return false;
       }
     }
@@ -293,7 +293,7 @@ bool ChessBoard::is_diag_clear(int startx, int starty, int endx, int endy){
 void ChessBoard::make_move (int src_row, int src_col, int des_row, int des_col){
  
   board[des_row][des_col] = board[src_row][src_col];
-  board[src_row][src_col] = NULL;
+  board[src_row][src_col] = nullptr;
 }
 
 
@@ -351,7 +351,7 @@ void ChessBoard::update_king_position (int des_row, int des_col){
 
 //Note here chess_colour is the colour of moving piece from source
 bool ChessBoard:: is_capture_king(int des_row, int des_col, bool is_white_chess){
-  if ( board[des_row][des_col] != NULL 
+  if ( board[des_row][des_col] != nullptr 
   && board[des_row][des_col] -> is_white() != is_white_chess 
   && board[des_row][des_col] -> get_flag_king()) return true;
   return false;
@@ -377,7 +377,7 @@ bool ChessBoard::in_check (bool colour, int king_row, int king_col){
   for (int i = 0; i <= 7; i++){
     for (int j = 0; j <= 7; j++){
      //each non-empty piece with same color as input and check whether it can attack this king
-      if (board[i][j] != NULL && board[i][j] -> is_white() == colour){
+      if (board[i][j] != nullptr && board[i][j] -> is_white() == colour){
 	      if (board[i][j] ->valid_move(i,j, king_row,king_col,this)) return true;
       }     
     }
@@ -418,7 +418,7 @@ bool ChessBoard::confirm_move (int src_row, int src_col, int des_row, int des_co
   move_back (src_row,src_col, des_row, des_col, temp_piece);
   //update king's position
   update_king_position (src_row, src_col);
-  
+
   return !inCheck;
 }
 
@@ -473,7 +473,7 @@ bool ChessBoard::is_valid_move(int src_row, int src_col, int des_row, int des_co
      for (int src_col = 0 ; src_col < 8; src_col++) {
        for (int des_row = 0; des_row < 8; des_row++) {
 	        for (int des_col = 0; des_col < 8; des_col++) { 
-	            if ((board[src_row][src_col]!= NULL) 
+	            if ((board[src_row][src_col]!= nullptr) 
               && board[src_row][src_col]-> is_white()  == is_white 
               && board[src_row][src_col] -> valid_move(src_row,src_col,des_row,des_col,this)) 
               {
@@ -508,7 +508,7 @@ void ChessBoard::submitMove(const char* source, const char* destination){
   }
   
   //check source is empty or not
-  if (board[src_row][src_col] == NULL){
+  if (board[src_row][src_col] == nullptr){
     
     cout << "There is no piece at position " << source <<"!" << endl;
     return;
