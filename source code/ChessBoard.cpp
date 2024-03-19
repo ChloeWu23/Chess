@@ -399,7 +399,6 @@ bool ChessBoard::in_check (bool colour, int king_row, int king_col){
  **/
 
 bool ChessBoard::confirm_move (int src_row, int src_col, int des_row, int des_col, bool is_white){
-  bool flag = true;
   Piece* temp_piece = board[des_row][des_col]; //record des piece in case moving back
   
   //make potential move
@@ -413,15 +412,14 @@ bool ChessBoard::confirm_move (int src_row, int src_col, int des_row, int des_co
 
   //check whether this move will make itself in check and 
   //If it let itself in check then we can not confirm this move
-  if (in_check (!is_white, king_r, king_c)) {
-    flag = false;
-  }
+  bool inCheck = in_check (!is_white, king_r, king_c);
 
   //undo the move we only need to know whether this move is valid or not, no need to really move it
   move_back (src_row,src_col, des_row, des_col, temp_piece);
   //update king's position
   update_king_position (src_row, src_col);
-  return flag;
+  
+  return !inCheck;
 }
 
 //===========================================================================
@@ -452,8 +450,6 @@ bool ChessBoard::is_valid_move(int src_row, int src_col, int des_row, int des_co
     if (!confirm_move(src_row, src_col, des_row, des_col, chess_colour)) {
         return false;
     }
-
-
     return true; // Passed all checks
 }
 
@@ -542,20 +538,14 @@ void ChessBoard::submitMove(const char* source, const char* destination){
        << " moves from "
        << source << " to " << destination;
 
-  //destination is not null we can take piece and also delete this piece on the heap 
-  //since it has been captured, otherwise it may cause memory leak
-  if (board[des_row][des_col]){
-    cout << " taking " << board[des_row][des_col];
-    delete board[des_row][des_col];
-  }
-   
+  //destination is not null we can take piece 
+  capturePiece(des_row, des_col); 
   cout << endl;
-
-  //make valid move
-  make_move (src_row, src_col, des_row, des_col);
-  //update king's position
-  update_king_position(des_row, des_col);
   
+  //execute the move and update the game state
+  make_move (src_row, src_col, des_row, des_col);
+  update_king_position(des_row, des_col);
+
   //record the color of its moving piece
   bool is_white_chess = board[des_row][des_col] ->is_white(); //moving piece's color
 
@@ -563,32 +553,56 @@ void ChessBoard::submitMove(const char* source, const char* destination){
   int opponent_king_row = is_white_chess? black_king_row : white_king_row;
   int opponent_king_col = is_white_chess? black_king_col : white_king_col;
  
- //From here think about next turn
- //check whether after this move make its opponent in check
-  if (in_check(is_white_chess,opponent_king_row, opponent_king_col)){
-    //in_check and also in checkmate
-    if (!AnyPossibleMove (!is_white_chess)){
-      cout << ((is_white_chess) ?  "Black" : "White" )
-	   << " is in checkmate" << endl;
-    } else {
-      //in check but there exists possible move to save it
-      cout << ((is_white_chess) ? "Black" : "White")
-	   << " is in check" << endl;
-    } 
-  }
-  //not in check but may in stalemate
-  else {
-    if (!AnyPossibleMove (!is_white_chess))
-      cout << ((is_white_chess) ?  "Black" : "White" )
-	   << " is in stalemate" << endl;
-  }
+  //Post-move checks for check, checkmate, and stalemate
+    postMoveChecks(is_white_chess, opponent_king_row, opponent_king_col);
   return;
 }
 
 
 
+//===========================================================================
+//---------------------capturePiece()----------------------------------------
+/**
+ *Function to capture piece at destination
+ *@param des_row: integer of row number destination
+ * @param des_col: integer of col number for destination
+ *@return void
+ **/
+void ChessBoard::capturePiece(int des_row, int des_col){
+  if (board[des_row][des_col]){
+    cout << " taking " << board[des_row][des_col];
+    delete board[des_row][des_col];
+    board[des_row][des_col] = nullptr; //avoid dangling pointer
+  }
+}
 
 
+//===========================================================================
+//---------------------postMoveChecks()----------------------------------------
+/**
+ *Function to check out whether the given color piece can make further move
+ *@param is_white_chess: is the bool variable and stands for colour of piece whether white or not
+ *@param opponent_king_row: integer of row number for opponent's king
+ * @param opponent_king_row: integer of col number for opponent's king
+ *@return void
+ **/
+void ChessBoard::postMoveChecks(bool is_white_chess, int opponent_king_row, int opponent_king_col){
+  //check whether after this move make its opponent in check
+  if (in_check(is_white_chess,opponent_king_row, opponent_king_col)){
+    //in_check and also in checkmate
+    if (!AnyPossibleMove (!is_white_chess)){
+      cout << ((is_white_chess) ?  "Black" : "White" )
+	      << " is in checkmate" << endl;
+      } else {
+      //in check but there exists possible move to save it
+        cout << ((is_white_chess) ? "Black" : "White")
+	      << " is in check" << endl;
+      } 
+  } else if(!AnyPossibleMove (!is_white_chess)){
+      cout << ((is_white_chess) ?  "Black" : "White" )
+	   << " is in stalemate" << endl;
+  }
+}
 
 //Note: this function helps with debug, didn't use it in this program
 /**

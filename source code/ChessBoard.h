@@ -41,6 +41,7 @@ public:
   
   /*Constructor*/
   ChessBoard();
+  void capturePiece(int des_row, int des_col);
   
   /* FUnction to check whether source and destination is valid or not */
   bool valid_input (int src_row, int src_col, int des_row, int des_col);
@@ -76,6 +77,7 @@ public:
   /*Function to check after one move, the board is in_check or not*/
   bool in_check (bool colour, int king_row, int king_col);
   
+  void postMoveChecks(bool is_white_chess, int opponent_king_row, int opponent_king_col);
   /*Functon to check whether it is checkmate */
   bool AnyPossibleMove(bool colour);
   
