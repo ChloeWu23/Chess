@@ -27,25 +27,15 @@ bool Bishop:: get_flag_king(){
 **/
 
 bool Bishop::valid_move(int src_row, int src_col, int des_row, int des_col,ChessBoard* cb){
-  bool flag = false;
+  //bool flag = false;
 
   bool chess_colour = cb->get_board(src_row,src_col) -> is_white();
-  
-  //check when destination is not empty it is opponent or not
-  if (cb -> get_board(des_row,des_col) != NULL 
-  && !cb ->is_opponent (src_row, src_col, des_row, des_col))  return false;
 
-  //move towards diagonal: check diagonal is clear or not
-  if (cb-> is_diag_clear (src_row, src_col, des_row, des_col)) flag = true;
-
-  if (flag == true && cb -> is_capture_king (des_row, des_col, chess_colour)) return true;
-  
-  if (flag == true){
-    if (!cb -> confirm_move(src_row, src_col, des_row, des_col,chess_colour))
-      flag = false;
+  if (cb-> is_diag_clear (src_row, src_col, des_row, des_col)){
+    return cb -> is_valid_move(src_row, src_col, des_row, des_col, chess_colour);
   }
-  
-  return flag;
+  return false;
+
 }
 
 

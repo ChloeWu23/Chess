@@ -24,31 +24,18 @@ King::King(string c) : Piece(c) {
 /* Note here valid means that it follows rule of its piece and if make this move 
 it wont make itself in check */
 bool King:: valid_move(int src_row, int src_col, int des_row, int des_col, ChessBoard* cb){
-  bool flag = false;
+  bool valid = false;
   bool chess_colour = cb->get_board(src_row,src_col) -> is_white();
-  
- 
-  //can't move to position where having its own piece
-  if (cb -> get_board(des_row,des_col) != NULL 
-    && !cb ->is_opponent (src_row, src_col, des_row, des_col)) {
-    return false;
-  }
 
   //destination position is as required: move one square in any direction
-  if (abs (des_col-src_col) == 1 && src_row == des_row) flag = true;
-  if (abs (des_row-src_row) == 1 && src_col == des_col) flag = true;
-  if (abs (des_col-src_col) == 1 && cb -> is_same_diagonal(src_row, src_col, des_row,des_col)) flag = true;
+  if (abs (des_col-src_col) == 1 && src_row == des_row) valid = true;
+  if (abs (des_row-src_row) == 1 && src_col == des_col) valid = true;
+  if (abs (des_col-src_col) == 1 && cb -> is_same_diagonal(src_row, src_col, des_row,des_col)) valid = true;
 
-  //check whether capture king
-  if (flag == true && cb -> is_capture_king (des_row, des_col, chess_colour)) return true;
-
-  //check not let itself in check
-  if (flag == true){
-    if (!cb -> confirm_move(src_row, src_col, des_row, des_col,chess_colour))
-      flag = false;
+  if (valid){
+    return cb -> is_valid_move(src_row, src_col, des_row, des_col, chess_colour);
   }
- 
-  return flag;      
+  return false;
 }
 
 //destuctor

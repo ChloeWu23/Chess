@@ -34,42 +34,37 @@ Pawn::~Pawn(){
 **/
 bool Pawn::  valid_move(int src_row, int src_col, int des_row, int des_col,ChessBoard* cb) {
   
-  bool flag = false;
+  bool valid = false;
   bool chess_colour = cb->get_board(src_row,src_col) -> is_white ();
   int direction = chess_colour? 1 : -1; //white moves up and black moves down
   
-  if (cb -> get_board(des_row,des_col) != NULL 
-      && !cb ->is_opponent (src_row, src_col, des_row, des_col)) return false;
-  
+
   //Forward move
   if(src_col == des_col){
     //single step forward
     if (!cb -> get_board(des_row, des_col) && (des_row - src_row) == direction){
-      flag = true;
+      valid = true;
     }
     //intial double step forward
     int initialRow = chess_colour ? 1: 6;
     if (src_row == initialRow && !cb -> get_board(des_row, des_col)
         && des_row - src_row == 2* direction
         && cb -> is_col_clear(src_row, src_col, des_row, des_col)){
-          flag = true;
+          valid = true;
     }
   }
 
   //Diagnal Capture
   if (abs(des_col-src_col) == 1 && des_row - src_row == direction
       && cb -> is_opponent(src_row, src_col, des_row, des_col)){
-        flag = true;
+        valid = true;
       }
   
-  if (flag == true && cb -> is_capture_king (des_row, des_col, chess_colour)) return true;
+  if (valid){
+    return cb->is_valid_move(src_row, src_col, des_row, des_col, chess_colour);
+
+  } 
   
-  if (flag == true){
-    if (!cb -> confirm_move(src_row, src_col, des_row, des_col,chess_colour)){
-      flag = false;
-    }
-  }
-  
-  return flag;
+  return false;
 }
 

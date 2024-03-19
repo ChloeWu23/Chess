@@ -424,6 +424,39 @@ bool ChessBoard::confirm_move (int src_row, int src_col, int des_row, int des_co
   return flag;
 }
 
+//===========================================================================
+//--------------------Function to check valid move-------------------------------
+/**
+ *Function to check it won't make itself in check after move
+ *@param src_row: integer of row numbers of the source CHess Piece
+ *@param des_row: integer of row numbers of the destiantion Chess Piece.
+ *@param src_col: integer of column numbers of the source CHess Piece
+ *@param des_col: integer of column numbers of the destiantion Chess Piece
+ *@param chess_color: bool variable to record the colour of the moving piece. true stands for white
+ *@param return: returns true if it is valid
+ **/
+
+bool ChessBoard::is_valid_move(int src_row, int src_col, int des_row, int des_col, bool chess_colour) {
+    
+    // Check for a piece at the destination that is not an opponent
+    if (get_board(des_row, des_col)  && !is_opponent(src_row, src_col, des_row, des_col)) {
+        return false;
+    }
+
+    // Check if the move captures the opponent's king, which could be a winning condition
+    if (is_capture_king(des_row, des_col, chess_colour)) {
+        return true; // Move is valid as it captures the king
+    }
+
+    // Check if the move puts the player's own king in check
+    if (!confirm_move(src_row, src_col, des_row, des_col, chess_colour)) {
+        return false;
+    }
+
+
+    return true; // Passed all checks
+}
+
 
 //===========================================================================
 //---------------------AnyPossibleMove()----------------------------------------

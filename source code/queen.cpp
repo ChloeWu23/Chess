@@ -27,28 +27,23 @@ bool Queen::get_flag_king(){
  *@param return: return true it is a valid move
 **/
 bool Queen::valid_move(int src_row, int src_col, int des_row, int des_col,ChessBoard* cb){
-  bool flag = false;
+  bool valid = false;
   bool chess_colour = cb->get_board(src_row,src_col) ->is_white();
   
-  if (cb -> get_board(des_row,des_col) !=NULL && !cb ->is_opponent(src_row, src_col, des_row, des_col)) return false;
-  
   //move toward rank
-  if(cb -> is_row_clear(src_row, src_col, des_row, des_col))  flag = true;
+  if(cb -> is_row_clear(src_row, src_col, des_row, des_col))  valid = true;
   
   //move towards file
-  if(cb -> is_col_clear(src_row, src_col, des_row, des_col))  flag = true;
+  if(cb -> is_col_clear(src_row, src_col, des_row, des_col))  valid = true;
   
   //move towards diagonal
-  if (cb-> is_diag_clear (src_row, src_col, des_row, des_col)) flag =  true;
+  if (cb-> is_diag_clear (src_row, src_col, des_row, des_col)) valid =  true;
 
-  if (flag == true && cb -> is_capture_king (des_row, des_col, chess_colour)) return true;
-  
-  if (flag == true){
-    if (!cb -> confirm_move(src_row, src_col, des_row, des_col,chess_colour))
-      flag = false;
-  }
-  
-  return flag;
+  if (valid){
+    return cb->is_valid_move(src_row, src_col, des_row, des_col, chess_colour);
+
+  } 
+  return false;
 }
 
 //destructor

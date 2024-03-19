@@ -45,6 +45,7 @@ public:
   /* FUnction to check whether source and destination is valid or not */
   bool valid_input (int src_row, int src_col, int des_row, int des_col);
   
+  bool is_valid_move(int src_row, int src_col, int des_row, int des_col, bool chess_colour);
   /*Function to check whether source and destination are diagnal.*/
   bool is_same_diagonal (int src_row, int src_col, int des_row, int des_col);
   
