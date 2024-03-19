@@ -122,12 +122,12 @@ bool ChessBoard::is_turn(int src_row, int src_col){
   //check if the piece at given position matches its turn
   //white moves first, and turn_count is 0 initially.
   //white's turn
-  if (turn_count%2 == 1 && board[src_row][src_col] -> is_white()){
+  if (turn_count%2 == 0 && board[src_row][src_col] -> is_white()){
     return true;
   }
     
   //black's turn
-  if (turn_count%2 == 0 && !board[src_row][src_col] -> is_white() )
+  if (turn_count%2 == 1 && !board[src_row][src_col] -> is_white() )
     return true;
   
   return false;
@@ -498,7 +498,7 @@ bool ChessBoard::is_valid_move(int src_row, int src_col, int des_row, int des_co
  *@param destiantion: pointer to a constant array of characters which is the destinaiton position you want to move to/
 **/
 void ChessBoard::submitMove(const char* source, const char* destination){
-  turn_count++;
+  
   int  src_row = source[1]-'1'; //decimal for row of source, from 0 to 7
   int  src_col = source[0]-'A';//decimal for column of source, from 0 to 7
   int des_row = destination[1]-'1';
@@ -507,9 +507,7 @@ void ChessBoard::submitMove(const char* source, const char* destination){
   
   //check valid input
   if (!valid_input(src_row,src_col,des_row, des_col)){
-    
     cout << "It is not valid input of source or destination position" << endl;
-    turn_count--;
     return;
   }
   
@@ -517,7 +515,6 @@ void ChessBoard::submitMove(const char* source, const char* destination){
   if (board[src_row][src_col] == NULL){
     
     cout << "There is no piece at position " << source <<"!" << endl;
-    turn_count--;
     return;
   }
  
@@ -526,7 +523,6 @@ void ChessBoard::submitMove(const char* source, const char* destination){
     cout << "It is not "
 	 << board[src_row][src_col]->print_colour()
          <<"'s turn to move." << endl;
-    turn_count--;
     return ;
   }
 
@@ -537,12 +533,11 @@ void ChessBoard::submitMove(const char* source, const char* destination){
     cout << board[src_row][src_col]
          <<  " can not moves to "
 	 << destination << "!" << endl;
-   turn_count--;
     return ;
   }
   
   //if it is a valid move from source to destination and we can actually make move from here
-  //turn_count++;
+  turn_count++;
   cout << board[src_row][src_col]
        << " moves from "
        << source << " to " << destination;
