@@ -361,7 +361,7 @@ bool ChessBoard:: is_capture_king(int des_row, int des_col, bool is_white_chess)
 //==========================================================================
 //-----------------------in_check()----------------------------------------
 
-/** Function check whether the color of king provided in_check
+/** Function check whether king provided will be in_check or not.
   *@param opponent_colour : bool value which stands for color different from king
   *@param king_row: integer of row numbers of King which in different colour
   *param king_col: integer of column numbers of King which is different colour from  @param colour
