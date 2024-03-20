@@ -362,13 +362,13 @@ bool ChessBoard:: is_capture_king(int des_row, int des_col, bool is_white_chess)
 //-----------------------in_check()----------------------------------------
 
 /** Function check whether the color of king provided in_check
-  *@param colour : bool value which stands for color different from king
+  *@param opponent_colour : bool value which stands for color different from king
   *@param king_row: integer of row numbers of King which in different colour
   *param king_col: integer of column numbers of King which is different colour from  @param colour
   *@return true if king is in check
 **/
 
-bool ChessBoard::in_check (bool colour, int king_row, int king_col){
+bool ChessBoard::in_check (bool opponent_color, int king_row, int king_col){
   /**
    Algorithm: Brute -Force
    Itterate each piece with same color as colour and still on board and check whether it can
@@ -377,7 +377,7 @@ bool ChessBoard::in_check (bool colour, int king_row, int king_col){
   for (int i = 0; i <= 7; i++){
     for (int j = 0; j <= 7; j++){
      //each non-empty piece with same color as input and check whether it can attack this king
-      if (board[i][j] != nullptr && board[i][j] -> is_white() == colour){
+      if (board[i][j] != nullptr && board[i][j] -> is_white() == opponent_color){
 	      if (board[i][j] ->valid_move(i,j, king_row,king_col,this)) return true;
       }     
     }

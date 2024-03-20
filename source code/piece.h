@@ -7,7 +7,7 @@ using namespace std;
 class ChessBoard;
 
 class Piece{
-  friend class ChessBoard;
+  //friend class ChessBoard;
 
 protected:
   string piece_colour;
