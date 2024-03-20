@@ -406,7 +406,7 @@ bool ChessBoard::confirm_move (int src_row, int src_col, int des_row, int des_co
   //update king's position
   update_king_position (des_row, des_col);
   
-  // king_r,king_c document its own king's position
+  // king_r,king_c record its own king's position
   int king_r = is_white? white_king_row : black_king_row;
   int king_c = is_white? white_king_col : black_king_col;
 
